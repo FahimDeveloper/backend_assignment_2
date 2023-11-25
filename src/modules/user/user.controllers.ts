@@ -16,7 +16,7 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'User creation failed',
       error: {
         code: 400,
         description: error?.issue ? error?.issues[0].message : error?.message,
@@ -36,7 +36,7 @@ const getAllUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'Users fetched failed',
       error: {
         code: 400,
         description: error?.issue ? error?.issues[0].message : error?.message,
@@ -57,7 +57,7 @@ const getSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'Users fetched failed',
       error: {
         code: 400,
         description: error?.issue ? error?.issues[0].message : error?.message,
@@ -79,7 +79,7 @@ const updateSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'Users updated failed',
       error: {
         code: 400,
         description: error?.issue ? error?.issues[0].message : error?.message,
@@ -100,7 +100,7 @@ const deleteOneUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'User deleted failed',
       error: {
         code: 400,
         descripton: error?.issue ? error?.issues[0].message : error?.message,
@@ -126,7 +126,7 @@ const createOrderForUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'Order creation failed',
       error: {
         code: 400,
         descripton: error?.issue ? error?.issues[0].message : error?.message,
@@ -141,13 +141,13 @@ const getUserAllOrder = async (req: Request, res: Response) => {
     const result = await UserService.getUserOrders(Number(userId));
     res.status(200).json({
       success: true,
-      message: 'Order fatched successfully!',
+      message: 'Orders fatched successfully!',
       data: result,
     });
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: 'Orders failed to be fetched',
       error: {
         code: 400,
         descripton: error?.issue ? error?.issues[0].message : error?.message,
