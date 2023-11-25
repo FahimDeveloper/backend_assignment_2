@@ -16,14 +16,13 @@ const getUsers = async () => {
 const getOneUser = async (userId: number) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
-    const result = await userModel.findOne({ userId });
+    const result = await userModel.findOne({ userId }).select('-password');
     return result;
   } else {
     throw new Error(`User not found`);
   }
 };
 
-// number 4 need more work on this function
 const updateOneUser = async (userId: number, data: TUser) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
