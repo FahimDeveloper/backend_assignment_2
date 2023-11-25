@@ -6,13 +6,13 @@ const createUserInDB = async (user: TUser) => {
   return result;
 };
 
-// number 2 need more work on this function
 const getUsers = async () => {
-  const result = await userModel.find();
+  const result = await userModel
+    .find()
+    .select({ username: 1, fullName: 1, age: 1, email: 1, address: 1 });
   return result;
 };
 
-// number 3 need more work on this function
 const getOneUser = async (userId: number) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
