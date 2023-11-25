@@ -114,14 +114,11 @@ const createOrderForUser = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const { body } = req;
     const validResult = ordersValidation.parse(body);
-    const result = await UserService.createUserOrder(
-      Number(userId),
-      validResult,
-    );
+    await UserService.createUserOrder(Number(userId), validResult);
     res.status(200).json({
       success: true,
       message: 'Order created successfully!',
-      data: result,
+      data: null,
     });
   } catch (error: any) {
     res.status(404).json({
