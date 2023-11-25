@@ -18,6 +18,7 @@ const userSchema = new Schema<TUser, TUserModel>({
       lastName: { type: String, required: true },
     },
     required: true,
+    _id: false,
   },
   age: { type: Number, required: true },
   email: { type: String, required: true, unique: true },
@@ -30,6 +31,7 @@ const userSchema = new Schema<TUser, TUserModel>({
       country: { type: String, required: true },
     },
     required: true,
+    _id: false,
   },
   orders: {
     type: [
@@ -54,6 +56,7 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.toJSON = function () {
   const userObject = this.toObject();
   delete userObject.password;
+  delete userObject._id;
   return userObject;
 };
 

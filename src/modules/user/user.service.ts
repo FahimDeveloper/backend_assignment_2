@@ -79,7 +79,13 @@ const totalPriceOfUserOrder = async (userId: number) => {
       {
         $project: {
           total: {
-            $sum: '$orders.price',
+            $sum: {
+              $map: {
+                input: '$orders',
+                as: 'order',
+                in: { $multiply: ['$$order.price', '$$order.quantity'] },
+              },
+            },
           },
         },
       },
