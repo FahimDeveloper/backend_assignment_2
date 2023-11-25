@@ -135,6 +135,27 @@ const createOrderForUser = async (req: Request, res: Response) => {
   }
 };
 
+const getUserAllOrder = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await UserService.getUserOrders(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: 'Order fatched successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.issues[0].message || error?.message,
+      error: {
+        code: 400,
+        descripton: error?.issues[0].message || error?.message,
+      },
+    });
+  }
+};
+
 export const userControllers = {
   createUser,
   getAllUser,
@@ -142,4 +163,5 @@ export const userControllers = {
   getSingleUser,
   deleteOneUser,
   createOrderForUser,
+  getUserAllOrder,
 };

@@ -14,8 +14,8 @@ const getUsers = async () => {
 
 // number 3 need more work on this function
 const getOneUser = async (userId: number) => {
-  const checkUserExisting = userModel.isUserExists(userId);
-  if (await checkUserExisting) {
+  const checkUserExisting = await userModel.isUserExists(userId);
+  if (checkUserExisting) {
     const result = await userModel.findOne({ userId });
     return result;
   } else {
@@ -25,8 +25,8 @@ const getOneUser = async (userId: number) => {
 
 // number 4 need more work on this function
 const updateOneUser = async (userId: number, data: TUser) => {
-  const checkUserExisting = userModel.isUserExists(userId);
-  if (await checkUserExisting) {
+  const checkUserExisting = await userModel.isUserExists(userId);
+  if (checkUserExisting) {
     const result = await userModel.findOneAndUpdate({ userId }, data);
     return result;
   } else {
@@ -35,8 +35,8 @@ const updateOneUser = async (userId: number, data: TUser) => {
 };
 
 const deleteUser = async (userId: number) => {
-  const checkUserExisting = userModel.isUserExists(userId);
-  if (await checkUserExisting) {
+  const checkUserExisting = await userModel.isUserExists(userId);
+  if (checkUserExisting) {
     const result = await userModel.findOneAndDelete({ userId });
     return result;
   } else {
@@ -48,12 +48,22 @@ const createUserOrder = async (
   userId: number,
   orderData: TOrder | undefined,
 ) => {
-  const checkUserExisting = userModel.isUserExists(userId);
-  if (await checkUserExisting) {
+  const checkUserExisting = await userModel.isUserExists(userId);
+  if (checkUserExisting) {
     const result = await userModel.findOneAndUpdate(
       { userId },
       { $push: { orders: { $each: [orderData] } } },
     );
+    return result;
+  } else {
+    throw new Error(`User not found`);
+  }
+};
+
+const getUserOrders = async (userId: number) => {
+  const checkUserExisting = userModel.isUserExists(userId);
+  if (await checkUserExisting) {
+    const result = userModel.findOne({ userId }).select({ orders: 1 });
     return result;
   } else {
     throw new Error(`User not found`);
@@ -67,4 +77,5 @@ export const UserService = {
   updateOneUser,
   deleteUser,
   createUserOrder,
+  getUserOrders,
 };
