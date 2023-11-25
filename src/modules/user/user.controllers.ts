@@ -16,10 +16,10 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        description: error?.issues[0].message || error?.message,
+        description: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -36,10 +36,10 @@ const getAllUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        description: error?.issues[0].message || error?.message,
+        description: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -57,10 +57,10 @@ const getSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        description: error?.issues[0].message || error?.message,
+        description: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -79,10 +79,10 @@ const updateSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        description: error?.issues[0].message || error?.message,
+        description: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -100,10 +100,10 @@ const deleteOneUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        descripton: error?.issues[0].message || error?.message,
+        descripton: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -126,10 +126,10 @@ const createOrderForUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        descripton: error?.issues[0].message || error?.message,
+        descripton: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -147,10 +147,31 @@ const getUserAllOrder = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.issues[0].message || error?.message,
+      message: error?.issue ? error?.issues[0].message : error?.message,
       error: {
         code: 400,
-        descripton: error?.issues[0].message || error?.message,
+        descripton: error?.issue ? error?.issues[0].message : error?.message,
+      },
+    });
+  }
+};
+
+const userOrdersTotalPrice = async (req: Request, res: Response) => {
+  try {
+    const { userId } = req.params;
+    const result = await UserService.totalPriceOfUserOrder(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: 'Total price calculated successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.issue ? error?.issues[0].message : error?.message,
+      error: {
+        code: 400,
+        descripton: error?.issue ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -164,4 +185,5 @@ export const userControllers = {
   deleteOneUser,
   createOrderForUser,
   getUserAllOrder,
+  userOrdersTotalPrice,
 };
