@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 //application router
-app.use('/user_info', userRoutes);
+app.use('/api/users', userRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('server is running');

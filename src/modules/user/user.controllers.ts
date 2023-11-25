@@ -14,12 +14,12 @@ const createUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'User creation failed',
       error: {
-        code: 400,
-        description: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        description: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -34,12 +34,12 @@ const getAllUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'Users fetched failed',
       error: {
-        code: 400,
-        description: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        description: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -55,12 +55,12 @@ const getSingleUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'Users fetched failed',
       error: {
-        code: 400,
-        description: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        description: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -77,12 +77,12 @@ const updateSingleUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'Users updated failed',
       error: {
-        code: 400,
-        description: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        description: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -91,19 +91,19 @@ const updateSingleUser = async (req: Request, res: Response) => {
 const deleteOneUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserService.deleteUser(Number(userId));
+    await UserService.deleteUser(Number(userId));
     res.status(200).json({
       success: true,
       message: 'User deleted successfully!',
-      data: result,
+      data: null,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'User deleted failed',
       error: {
-        code: 400,
-        descripton: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        descripton: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -124,12 +124,12 @@ const createOrderForUser = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'Order creation failed',
       error: {
-        code: 400,
-        descripton: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        descripton: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -145,12 +145,12 @@ const getUserAllOrder = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
       message: 'Orders failed to be fetched',
       error: {
-        code: 400,
-        descripton: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        descripton: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }
@@ -166,12 +166,12 @@ const userOrdersTotalPrice = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error: any) {
-    res.status(400).json({
+    res.status(404).json({
       success: false,
-      message: error?.issue ? error?.issues[0].message : error?.message,
+      message: error?.issues ? error?.issues[0].message : error?.message,
       error: {
-        code: 400,
-        descripton: error?.issue ? error?.issues[0].message : error?.message,
+        code: 404,
+        descripton: error?.issues ? error?.issues[0].message : error?.message,
       },
     });
   }

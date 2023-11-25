@@ -16,7 +16,7 @@ const getUsers = async () => {
 const getOneUser = async (userId: number) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
-    const result = await userModel.findOne({ userId }).select('-password');
+    const result = await userModel.findOne({ userId });
     return result;
   } else {
     throw new Error(`User not found`);
@@ -38,7 +38,7 @@ const updateOneUser = async (userId: number, data: TUser) => {
 const deleteUser = async (userId: number) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
-    const result = await userModel.findOneAndDelete({ userId });
+    const result = await userModel.deleteOne({ userId });
     return result;
   } else {
     throw new Error(`User not found`);

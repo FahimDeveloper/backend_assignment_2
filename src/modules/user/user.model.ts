@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Schema, model } from 'mongoose';
 import { TUser, TUserModel } from './user.interface';
 import config from '../../config';
@@ -50,10 +51,11 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-userSchema.post('save', async function (doc, next) {
-  doc.password = '';
-  next();
-});
+userSchema.methods.toJSON = function () {
+  const userObject = this.toObject();
+  delete userObject.password;
+  return userObject;
+};
 
 userSchema.statics.isUserExists = async function (userId: number) {
   const existingUser = await userModel.findOne({ userId });
