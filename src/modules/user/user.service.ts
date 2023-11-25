@@ -1,4 +1,4 @@
-import { TUser } from './user.interface';
+import { TOrder, TUser } from './user.interface';
 import { userModel } from './user.model';
 
 const createUserInDB = async (user: TUser) => {
@@ -16,7 +16,7 @@ const getUsers = async () => {
 const getOneUser = async (userId: number) => {
   const checkUserExisting = userModel.isUserExists(userId);
   if (await checkUserExisting) {
-    const result = userModel.findOne({ userId });
+    const result = await userModel.findOne({ userId });
     return result;
   } else {
     throw new Error(`User not found`);
@@ -27,7 +27,7 @@ const getOneUser = async (userId: number) => {
 const updateOneUser = async (userId: number, data: TUser) => {
   const checkUserExisting = userModel.isUserExists(userId);
   if (await checkUserExisting) {
-    const result = userModel.findOneAndUpdate({ userId }, data);
+    const result = await userModel.findOneAndUpdate({ userId }, data);
     return result;
   } else {
     throw new Error(`User not found`);
@@ -37,7 +37,23 @@ const updateOneUser = async (userId: number, data: TUser) => {
 const deleteUser = async (userId: number) => {
   const checkUserExisting = userModel.isUserExists(userId);
   if (await checkUserExisting) {
-    const result = userModel.findOneAndDelete({ userId });
+    const result = await userModel.findOneAndDelete({ userId });
+    return result;
+  } else {
+    throw new Error(`User not found`);
+  }
+};
+
+const createUserOrder = async (
+  userId: number,
+  orderData: TOrder | undefined,
+) => {
+  const checkUserExisting = userModel.isUserExists(userId);
+  if (await checkUserExisting) {
+    const result = await userModel.findOneAndUpdate(
+      { userId },
+      { $push: { orders: { $each: [orderData] } } },
+    );
     return result;
   } else {
     throw new Error(`User not found`);
@@ -50,4 +66,5 @@ export const UserService = {
   getOneUser,
   updateOneUser,
   deleteUser,
+  createUserOrder,
 };

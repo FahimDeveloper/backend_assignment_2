@@ -21,7 +21,7 @@ export interface TUser {
   orders?: Array<TOrder>;
 }
 
-interface TOrder {
+export interface TOrder {
   productName: string;
   price: number;
   quantity: number;

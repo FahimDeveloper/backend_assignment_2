@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
-import userValidation from './user.validation';
+import { ordersValidation, userValidation } from './user.validation';
 import { UserService } from './user.service';
 
 const createUser = async (req: Request, res: Response) => {
@@ -16,10 +16,10 @@ const createUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.message,
+      message: error?.issues[0].message || error?.message,
       error: {
         code: 400,
-        description: error?.message,
+        description: error?.issues[0].message || error?.message,
       },
     });
   }
@@ -36,10 +36,10 @@ const getAllUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.message,
+      message: error?.issues[0].message || error?.message,
       error: {
         code: 400,
-        description: error?.message,
+        description: error?.issues[0].message || error?.message,
       },
     });
   }
@@ -57,10 +57,10 @@ const getSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.message,
+      message: error?.issues[0].message || error?.message,
       error: {
         code: 400,
-        description: error?.message,
+        description: error?.issues[0].message || error?.message,
       },
     });
   }
@@ -79,10 +79,10 @@ const updateSingleUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.message,
+      message: error?.issues[0].message || error?.message,
       error: {
         code: 400,
-        description: error?.message,
+        description: error?.issues[0].message || error?.message,
       },
     });
   }
@@ -100,10 +100,36 @@ const deleteOneUser = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(400).json({
       success: false,
-      message: error?.message,
+      message: error?.issues[0].message || error?.message,
       error: {
         code: 400,
-        descripton: error?.message,
+        descripton: error?.issues[0].message || error?.message,
+      },
+    });
+  }
+};
+
+const createOrderForUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const { body } = req;
+    const validResult = ordersValidation.parse(body);
+    const result = await UserService.createUserOrder(
+      Number(userId),
+      validResult,
+    );
+    res.status(200).json({
+      success: true,
+      message: 'Order created successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.issues[0].message || error?.message,
+      error: {
+        code: 400,
+        descripton: error?.issues[0].message || error?.message,
       },
     });
   }
@@ -115,4 +141,5 @@ export const userControllers = {
   updateSingleUser,
   getSingleUser,
   deleteOneUser,
+  createOrderForUser,
 };
