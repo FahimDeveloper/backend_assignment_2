@@ -66,8 +66,53 @@ const getSingleUser = async (req: Request, res: Response) => {
   }
 };
 
+const updateSingleUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const { body } = req;
+    const result = await UserService.updateOneUser(Number(userId), body);
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 400,
+        description: error?.message,
+      },
+    });
+  }
+};
+
+const deleteOneUser = async (req: Request, res: Response) => {
+  try {
+    const userId = req.params.userId;
+    const result = await UserService.deleteUser(Number(userId));
+    res.status(200).json({
+      success: true,
+      message: 'User deleted successfully!',
+      data: result,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: error?.message,
+      error: {
+        code: 400,
+        descripton: error?.message,
+      },
+    });
+  }
+};
+
 export const userControllers = {
   createUser,
   getAllUser,
+  updateSingleUser,
   getSingleUser,
+  deleteOneUser,
 };

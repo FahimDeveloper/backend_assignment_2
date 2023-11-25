@@ -23,8 +23,31 @@ const getOneUser = async (userId: number) => {
   }
 };
 
+// number 4 need more work on this function
+const updateOneUser = async (userId: number, data: TUser) => {
+  const checkUserExisting = userModel.isUserExists(userId);
+  if (await checkUserExisting) {
+    const result = userModel.findOneAndUpdate({ userId }, data);
+    return result;
+  } else {
+    throw new Error(`User not found`);
+  }
+};
+
+const deleteUser = async (userId: number) => {
+  const checkUserExisting = userModel.isUserExists(userId);
+  if (await checkUserExisting) {
+    const result = userModel.findOneAndDelete({ userId });
+    return result;
+  } else {
+    throw new Error(`User not found`);
+  }
+};
+
 export const UserService = {
   createUserInDB,
   getUsers,
   getOneUser,
+  updateOneUser,
+  deleteUser,
 };
