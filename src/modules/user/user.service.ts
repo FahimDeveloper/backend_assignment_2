@@ -27,7 +27,9 @@ const getOneUser = async (userId: number) => {
 const updateOneUser = async (userId: number, data: TUser) => {
   const checkUserExisting = await userModel.isUserExists(userId);
   if (checkUserExisting) {
-    const result = await userModel.findOneAndUpdate({ userId }, data);
+    const result = await userModel
+      .findOneAndUpdate({ userId }, data)
+      .select('-password');
     return result;
   } else {
     throw new Error(`User not found`);
